@@ -7,14 +7,7 @@ from app.agent_manager import run_pipeline
 
 
 def main() -> None:
-    """Backward-compatible wrapper for the old source_scout entrypoint.
-
-    Note: `--hn-limit` is accepted for compatibility but ignored in the
-    restructured Reddit-only pipeline.
-    """
-
-    parser = argparse.ArgumentParser(description="Run Source Scout collection (compat mode)")
-    parser.add_argument("--hn-limit", type=int, default=30, help="Deprecated/ignored")
+    parser = argparse.ArgumentParser(description="Run agentic idea scout pipeline")
     parser.add_argument("--reddit-subreddit", type=str, default="SaaS", help="Subreddit for RSS fetch")
     parser.add_argument("--reddit-limit", type=int, default=20, help="Reddit RSS items to fetch")
     parser.add_argument(

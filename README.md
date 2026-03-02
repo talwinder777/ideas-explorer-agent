@@ -1,13 +1,41 @@
 # ideas-explorer-agent
-This agent would be responsible to grab ideas around painpoints of people from the internet, to see if an agent can be build around that painpoint
 
-# input
-Different social media platforms and category
+Agentic idea scout project for discovering pain-point posts and turning them into potential AI/agent business opportunities.
 
-# output
-Excel file with problems and decision on if agent can be created to solve that problem
+## Current status
 
-# tech stack
-Python to scrape ideas from internet.
+- Restructured to an `app/` + `agents/` architecture.
+- Current working pipeline is **Reddit RSS scout** -> normalized JSON output.
+- Future stages (`idea_filter`, `opportunity_analysis`) are scaffolded and ready for implementation.
 
-GPT latest thinking model for reasoning and decision
+## Run
+
+From repo root:
+
+```bash
+python -m pip install -r requirements.txt
+python -m app.main --reddit-subreddit SaaS --reddit-limit 20 --out data/raw_items.json
+```
+
+Alternative script entrypoints:
+
+```bash
+python -m scripts.run_agent
+python -m scripts.run_scraper --reddit-subreddit SaaS --reddit-limit 20 --out data/raw_items.json
+```
+
+Backward-compatibility entrypoint (kept temporarily):
+
+```bash
+python -m skills.source_scout.run --reddit-subreddit SaaS --reddit-limit 20
+```
+
+## Tests
+
+```bash
+python -m unittest discover -s tests -p "test_*.py"
+```
+
+## Project tracking
+
+See `ROADMAP.md` for milestone status, architecture diagram, and changelog.
