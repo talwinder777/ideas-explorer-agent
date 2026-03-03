@@ -4,6 +4,6 @@ from app.idea_filter.llm_client import LLMClient
 
 
 def evaluate_pain_signal(title: str, text: str = "") -> dict:
-    """Placeholder evaluator that will call the LLM client in future iterations."""
+    """Evaluate whether a post indicates a pain signal using configured LLM client."""
     client = LLMClient()
-    return client.evaluate(f"{title}\n\n{text}".strip())
+    return client.evaluate(title=title, text=text)
