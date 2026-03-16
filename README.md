@@ -4,17 +4,39 @@ Agentic idea scout project for discovering pain-point posts and turning them int
 
 ## Current status
 
-- Restructured to an `app/` + `agents/` architecture.
-- Current working pipeline is **Reddit RSS scout** -> normalized JSON output.
-- Configurable `idea_filter` client now supports both **OpenAI** and **local Ollama** for pain-signal evaluation.
+- Restructured to a compatibility-first architecture with canonical modules in `idea_agent_app/` and `llm_clients/`.
+- Existing `app/` paths are preserved as backward-compatible wrappers.
+- `agents/idea_agent.py` is now the primary runnable flow for **Reddit RSS scout -> LLM pain-signal filtering**.
 
 ## Run
+
+### Primary entrypoint (idea agent)
+
+From repo root:
+
+```bash
+python -m agents.idea_agent --reddit-subreddit SaaS --reddit-limit 20 --raw-out data/raw_items.json --out data/pain_candidates.json
+```
+
+Include all analyzed rows (not only candidates):
+
+```bash
+python -m agents.idea_agent --reddit-subreddit SaaS --reddit-limit 20 --raw-out data/raw_items.json --out data/pain_analysis_all.json --include-all
+```
+
+### Top-level dispatcher (future multi-agent)
+
+```bash
+python -m main --agent idea_agent --reddit-subreddit SaaS --reddit-limit 20 --raw-out data/raw_items.json --out data/pain_candidates.json
+```
+
+### Compatibility entrypoint
 
 From repo root:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m app.main --reddit-subreddit SaaS --reddit-limit 20 --out data/raw_items.json
+python -m app.main --reddit-subreddit SaaS --reddit-limit 20 --out data/raw_items.json --analyzed-out data/pain_candidates.json
 ```
 
 ## LLM provider setup (for pain-signal filtering)
@@ -98,6 +120,9 @@ python -m scripts.run_pain_filter --in data/raw_items_after_env.json --out data/
 This command explicitly uses the LLM path:
 `app.idea_filter.evaluator -> app.idea_filter.llm_client`
 
+Canonical path after restructure:
+`idea_agent_app.idea_filter_agent.evaluator -> llm_clients.llm_client`
+
 The evaluator input/output contract is unchanged regardless of provider.
 
 Alternative script entrypoints:
@@ -112,6 +137,18 @@ Backward-compatibility entrypoint (kept temporarily):
 ```bash
 python -m skills.source_scout.run --reddit-subreddit SaaS --reddit-limit 20
 ```
+
+## Structure notes
+
+- Canonical app package: `idea_agent_app/`
+  - `idea_filter_agent/`
+  - `idea_scraper/`
+  - `opportunity_analysis_agent/`
+  - `database/`
+  - `models/`
+  - `orchestrator/`
+- Canonical reusable LLM clients: `llm_clients/`
+- Backward-compatible wrappers retained in `app/`.
 
 ## Tests
 

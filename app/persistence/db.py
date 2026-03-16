@@ -1,8 +1,8 @@
-from __future__ import annotations
+"""Backward-compatible DB exports.
 
+Canonical location: `idea_agent_app.database.db`.
+"""
 
-class Database:
-    """Placeholder DB adapter for future persistence beyond JSON files."""
+from idea_agent_app.database.db import Database
 
-    def connect(self) -> None:
-        return None
+__all__ = ["Database"]

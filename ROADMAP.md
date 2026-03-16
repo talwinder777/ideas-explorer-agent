@@ -1,8 +1,8 @@
 # ROADMAP
 
-Last updated: 2026-03-09
+Last updated: 2026-03-15
 Current branch: sourceScout
-Current phase: Provider-agnostic LLM integration (OpenAI + local Ollama)
+Current phase: Structure refactor to `idea_agent_app` + `llm_clients` with compatibility wrappers
 
 ## Milestone Tracker
 
@@ -37,6 +37,10 @@ flowchart LR
 - 2026-03-09: Refactored `LLMClient` to provider-based routing (`LLM_PROVIDER`) with local Ollama support (`OLLAMA_*` env settings).
 - 2026-03-09: Preserved evaluator input/output contract while adding robust JSON parsing for model responses.
 - 2026-03-09: Expanded tests for Ollama success/error paths and provider selection behavior; updated README setup docs.
+- 2026-03-15: Added canonical package layout under `idea_agent_app/` (`idea_filter_agent`, `idea_scraper`, `opportunity_analysis_agent`, `database`, `models`, `orchestrator`).
+- 2026-03-15: Moved reusable LLM client to top-level `llm_clients/` and kept `app.idea_filter.llm_client` as backward-compatible export wrapper.
+- 2026-03-15: Updated `agents/idea_agent.py` to run end-to-end flow (Reddit scrape -> LLM pain filtering) and added root dispatcher `main.py`.
+- 2026-03-15: Preserved old `app/*` import paths as compatibility wrappers to keep existing scripts/tests functional during migration.
 
 ## Documentation Sync Rule (Task Closeout)
 
@@ -52,3 +56,4 @@ This is now part of done criteria for future task completion.
 1. Add ranked opportunity analysis output.
 2. Add XLSX export and scheduler.
 3. Add optional local benchmarking across models (e.g., qwen variants) for pain-signal quality tuning.
+4. Gradually migrate tests/imports to canonical `idea_agent_app/*` and `llm_clients/*` paths, then evaluate deprecation timeline for wrappers.

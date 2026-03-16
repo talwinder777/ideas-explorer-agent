@@ -1,24 +1,18 @@
-"""Backward-compatible scraper module.
+from __future__ import annotations
 
-Canonical implementation lives in `idea_agent_app.idea_scraper.reddit_scraper`, but
-this module keeps local symbols for test patch compatibility.
-"""
+from typing import Optional
 
-from idea_agent_app.idea_scraper import reddit_scraper as _impl
+import feedparser
 
-feedparser = _impl.feedparser
-RawItem = _impl.RawItem
-safe_text = _impl.safe_text
-safe_author = _impl.safe_author
-safe_published = _impl.safe_published
-dedupe_by_url = _impl.dedupe_by_url
+from idea_agent_app.idea_scraper.utils import dedupe_by_url, safe_author, safe_published, safe_text
+from idea_agent_app.models import RawItem
 
 
 def fetch_rss(
     feed_url: str,
     source_name: str,
     limit: int = 20,
-    tags: list[str] | None = None,
+    tags: Optional[list[str]] = None,
 ) -> list[RawItem]:
     fp = feedparser.parse(feed_url)
     entries = fp.entries[:limit]
@@ -66,6 +60,3 @@ def collect_reddit_items(
     items = fetch_reddit_rss(subreddit=reddit_subreddit, limit=reddit_limit)
     valid_items = [i for i in items if i.title.strip() and i.url.strip()]
     return dedupe_by_url(valid_items)
-
-
-__all__ = ["feedparser", "fetch_rss", "fetch_reddit_rss", "collect_reddit_items"]

@@ -1,39 +1,8 @@
-from __future__ import annotations
+"""Backward-compatible scraper utility exports.
 
-from typing import Iterable, Optional
+Canonical location: `idea_agent_app.idea_scraper.utils`.
+"""
 
-from app.persistence.models import RawItem
+from idea_agent_app.idea_scraper.utils import dedupe_by_url, safe_author, safe_published, safe_text
 
-
-def safe_text(entry) -> str:
-    if hasattr(entry, "summary") and entry.summary:
-        return str(entry.summary).strip()
-    if hasattr(entry, "description") and entry.description:
-        return str(entry.description).strip()
-    return ""
-
-
-def safe_author(entry) -> Optional[str]:
-    if hasattr(entry, "author") and entry.author:
-        return str(entry.author).strip()
-    return None
-
-
-def safe_published(entry) -> Optional[str]:
-    if hasattr(entry, "published") and entry.published:
-        return str(entry.published).strip()
-    if hasattr(entry, "updated") and entry.updated:
-        return str(entry.updated).strip()
-    return None
-
-
-def dedupe_by_url(items: Iterable[RawItem]) -> list[RawItem]:
-    seen: set[str] = set()
-    deduped: list[RawItem] = []
-    for item in items:
-        key = item.url.strip()
-        if not key or key in seen:
-            continue
-        seen.add(key)
-        deduped.append(item)
-    return deduped
+__all__ = ["safe_text", "safe_author", "safe_published", "dedupe_by_url"]

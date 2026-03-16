@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.main import main
+from agents.idea_agent import main
 
 
 if __name__ == "__main__":

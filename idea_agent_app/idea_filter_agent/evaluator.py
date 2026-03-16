@@ -1,10 +1,5 @@
 from __future__ import annotations
 
-"""Backward-compatible evaluator exports.
-
-Canonical location: `idea_agent_app.idea_filter_agent.evaluator`.
-"""
-
 from llm_clients.llm_client import LLMClient
 
 
@@ -12,6 +7,3 @@ def evaluate_pain_signal(title: str, text: str = "") -> dict:
     """Evaluate whether a post indicates a pain signal using configured LLM client."""
     client = LLMClient()
     return client.evaluate(title=title, text=text)
-
-
-__all__ = ["evaluate_pain_signal", "LLMClient"]

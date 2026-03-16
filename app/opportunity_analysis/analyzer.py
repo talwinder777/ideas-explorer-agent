@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+"""Backward-compatible analyzer exports.
 
-def rank_opportunities(items: list[dict]) -> list[dict]:
-    """Placeholder for future ranking/feasibility analysis."""
-    return items
+Canonical location: `idea_agent_app.opportunity_analysis_agent.analyzer`.
+"""
+
+from idea_agent_app.opportunity_analysis_agent.analyzer import rank_opportunities
+
+__all__ = ["rank_opportunities"]

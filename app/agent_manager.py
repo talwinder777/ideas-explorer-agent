@@ -1,19 +1,10 @@
 from __future__ import annotations
 
-from pathlib import Path
+"""Backward-compatible orchestrator exports.
 
-from agents.idea_agent import run_idea_agent
-from app.persistence.models import RawItem
+Canonical location: `idea_agent_app.orchestrator.agent_manager`.
+"""
 
+from idea_agent_app.orchestrator.agent_manager import run_full_pipeline, run_pipeline
 
-def run_pipeline(
-    reddit_subreddit: str = "SaaS",
-    reddit_limit: int = 20,
-    out_path: Path = Path("data/raw_items.json"),
-) -> list[RawItem]:
-    """Run current pipeline (Reddit scout only) and persist raw items."""
-    return run_idea_agent(
-        reddit_subreddit=reddit_subreddit,
-        reddit_limit=reddit_limit,
-        out_path=out_path,
-    )
+__all__ = ["run_pipeline", "run_full_pipeline"]
